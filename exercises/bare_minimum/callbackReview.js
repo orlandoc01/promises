@@ -52,8 +52,12 @@ var pluckFirstLineFromFile = function (filePath, callback) {
 // HINT: there is a `statusCode` property on the `response` object
 var getStatusCode = function (url, callback) {
   // YOUR CODE HERE
-  request.get(url, function(req, resp) {
-    callback(resp.statusCode);
+  request.get(url, function(err, resp, body) {
+    if(err) {
+      callback(err, null, null);
+    } else {
+      callback(err, resp.statusCode, body);
+    }
   });
 };
 
