@@ -60,7 +60,7 @@ var getGitHubProfile = function (user, callback) {
  });
 };
 
-var getGitHubProfileAsync; // TODO
+var getGitHubProfileAsync = Promise.promisify(getGitHubProfile); // TODO
 
 
 // (2) Asyncronous token generation
