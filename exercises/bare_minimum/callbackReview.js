@@ -39,16 +39,22 @@ var request = require('request');
 var pluckFirstLineFromFile = function (filePath, callback) {
   // YOUR CODE HERE
   fs.readFile(filePath, 'utf8', function(err, data) {
-    callback(data.split('\n')[0]);
+    if(err) {
+      callback(err, null);
+    } else {
+      callback(err, data.split('\n')[0]);
+    }
   });
 };
 
 // This function should retrieve the status code of a GET request to `url`
 // HINT: the `request` module has been included to help you send HTTP requests
 // HINT: there is a `statusCode` property on the `response` object
-var getStatusCode = function (url
-) {
+var getStatusCode = function (url, callback) {
   // YOUR CODE HERE
+  request.get(url, function(req, resp) {
+    callback(resp.statusCode);
+  });
 };
 
 // Export these functions so we can unit test them
