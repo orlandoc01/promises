@@ -51,8 +51,8 @@ var lib = require('../../lib/advancedChainingHelpers.js');
 // Visit the following url to sign up for a free account
 //     https://developer.clarifai.com/accounts/login/?next=/applications/
 // Then, create a new Application and pass your Client Id and Client Secret into the method below
-lib.setImageTaggerCredentials('U6ZNs1egVzK83p31vD4jf-wW_CD9Bdeudo7gJuJz', 'nBfqF8YH7kpdoHSEMx7dEPPtqWpJZ3uL6t6eB9HE')
-var token = lib.authenticateImageTagger();
+lib.setImageTaggerCredentials('U6ZNs1egVzK83p31vD4jf-wW_CD9Bdeudo7gJuJz', 'nBfqF8YH7kpdoHSEMx7dEPPtqWpJZ3uL6t6eB9HE');
+var token; 
 var searchCommonTagsFromGitHubProfiles = function(githubHandles) {
   return Promise.map( githubHandles, function(handle) {
     return lib.getGitHubProfile(handle);
@@ -61,8 +61,18 @@ var searchCommonTagsFromGitHubProfiles = function(githubHandles) {
     return Promise.map(profiles, function(profile) {
       return profile.avatarUrl;
     });
-  }).each( function(url) {
-    console.log(url);
+  })
+  .then( function(imageUrls) {
+    console.log(imageUrls);
+    return Promise.map(imageUrls, function(imageUrl) {
+      return lib.authenticateImageTagger()
+              .then( function(token) {
+                return lib.tagImage(imageUrl, token);
+              });
+    });
+  })
+  .then( function(adjs) {
+    return lib.getIntersection(adjs);
   });
 };
 

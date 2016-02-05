@@ -449,7 +449,7 @@ describe('Advanced Content', function() {
         this.timeout(5000);
         searchCommonTagsFromGitHubProfiles(['danthareja'])
           .then(function(tags) {
-            expect(tags).to.contain('men');
+            expect(tags).to.contain('man');
             done();
           })
           .catch(done)
