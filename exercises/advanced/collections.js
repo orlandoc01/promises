@@ -58,8 +58,27 @@ var asyncLib = require('../../lib/asyncLib.js');
   *   })
   */
 
+var pluckFirstLineFromFileAsync = require('../bare_minimum/promiseConstructor').pluckFirstLineFromFileAsync;
+var fs = require('fs');
+Promise.promisifyAll(fs);
+
 var combineFirstLineOfManyFiles = function (filePaths, writePath) {
  // YOUR CODE HERE
+ console.log(typeof pluckFirstLineFromFileAsync);
+ var arr1 = filePaths.map( function(filePath) {
+      pluckFirstLineFromFileAsync(filePath);
+  });
+
+ return Promise.all(arr1)
+  .then( function(lines) {
+    return lines.join('\n');
+  })
+  .then( function(allLines) {
+    return fs.writeFileAsync(writePath, allLines, 'utf8');
+  })
+  .catch( function(error) {
+    console.log('Theres been an error');
+  });
 };
 
 // Export these functions so we can unit test them

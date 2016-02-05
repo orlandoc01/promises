@@ -33,7 +33,6 @@ var pluckFirstLineFromFileAsync = function (filePath) {
       if(err) {
         reject(err);
       } else {
-        console.log(data);
         resolve(data.split('\n')[0]);
       }
     });
