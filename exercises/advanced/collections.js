@@ -64,12 +64,17 @@ Promise.promisifyAll(fs);
 
 var combineFirstLineOfManyFiles = function (filePaths, writePath) {
  // YOUR CODE HERE
- console.log(typeof pluckFirstLineFromFileAsync);
- var arr1 = filePaths.map( function(filePath) {
-      pluckFirstLineFromFileAsync(filePath);
+ 
+
+
+
+
+
+ var promises = filePaths.map( function(filePath) {
+      return pluckFirstLineFromFileAsync(filePath);
   });
 
- return Promise.all(arr1)
+ return Promise.all(promises)
   .then( function(lines) {
     return lines.join('\n');
   })
